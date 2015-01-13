@@ -11,7 +11,7 @@ module Function.Extra where
 
 {-| Map into a function with a fixed input `x`. This function is just an alias for `(<<)`, the function composition operator.
 
-    (Function.map f fa) == (f << fa)
+    (f `map` g `map` h) == (f << g << h) -- Note that `map` refers to Function.map not List.map!
 
 The `(x -> ...)` pattern is sometimes refered to as a "Reader" of `x`, where `x` represents some ancillary environment within which we would like to operate.
 This allows `map` to transform a "Reader" that produces an `a` into a "Reader" that produces a `b`.

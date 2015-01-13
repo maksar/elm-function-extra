@@ -20,40 +20,45 @@ map : (a -> b) -> (x -> a) -> x -> b
 map = (<<)
 
 {-| Send a single argument `x` into a binary function using two intermediate mappings.
-See also `apply`.
+
+    (map2 f ga gb) x == (f (ga x) (gb x)) x
 
 The `(x -> ...)` patterns are sometimes refered to as "Readers" of `x`, where `x` represents some ancillary environment within which we would like to operate.
 This allows `map2` to read two variables from the environment `x` before applying them to a binary function `f`.
 -}
 map2 : (a -> b -> c) -> (x -> a) -> (x -> b) -> x -> c
-map2 f fa fb x = f (fa x) (fb x)
+map2 f ga gb x = f (ga x) (gb x)
 
 {-| Send a single argument `x` into a ternary function using three intermediate mappings.
+
+    (map3 f ga gb gc) x == (f (ga x) (gb x) (gc x)) x
 
 The `(x -> ...)` patterns are sometimes refered to as "Readers" of `x`, where `x` represents some ancillary environment within which we would like to operate.
 This allows `map3` to read three variables from the environment `x` before applying them to a ternary function `f`.
 -}
 map3 : (a -> b -> c -> d) -> (x -> a) -> (x -> b) -> (x -> c) -> x -> d
-map3 f fa fb fc x = f (fa x) (fb x) (fc x)
+map3 f ga gb gc x = f (ga x) (gb x) (gc x)
 
 {-| Send a single argument `x` into a quaternary function using four intermediate mappings.
 Use `apply` as an infix combinator in order to deal with a larger numbers of arguments.
+
+    (map4 f ga gb gc gd) x == (f (ga x) (gb x) (gc x) (gd x)) x
 
 The `(x -> ...)` patterns are sometimes refered to as "Readers" of `x`, where `x` represents some ancillary environment within which we would like to operate.
 This allows `map4` to read four variables from the environment `x` before applying them to a quaternary function `f`.
 -}
 map4 : (a -> b -> c -> d -> e) -> (x -> a) -> (x -> b) -> (x -> c) -> (x -> d) -> x -> e
-map4 f fa fb fc fd x = f (fa x) (fb x) (fc x) (fd x)
+map4 f ga gb gc gd x = f (ga x) (gb x) (gc x) (gd x)
 
 {-| Incrementally apply more functions, similar to `map*N*` where `*N*` is not fixed.
 
 The `(x -> ...)` pattern is sometimes refered to as a "Reader" of `x`, where `x` represents some ancillary environment within which we would like to operate.
-This allows `apply` to compose two function `f` and `fa` similar to `f << fa`, but instead passes the environment into both so that 
+This allows `apply` to compose many functions, where each is able to read from the same environment.
 
     (f `apply` g `apply` h) x == (f x << g x << h x)
 -}
 apply : (x -> a -> b) -> (x -> a) -> x -> b
-apply f fa x = f x (fa x)
+apply f ga x = f x (ga x)
 
 {-| Connect the result `a` of the first function to the first argument of the second function to form a pipeline.
 Then, send `x` into each function along the pipeline in order to execute it in a sequential manner.
@@ -64,7 +69,7 @@ This allows `andThen` to repeatedly read from the environment `x` and send the r
     (f `andThen` g `andThen` h) x == (h (g (f x) x) x)
 -}
 andThen : (x -> a) -> (a -> x -> b) -> x -> b
-andThen fa f x = f (fa x) x
+andThen fa g x = g (fa x) x
 
 {-| Change how arguments are passed to a function.
 This splits 3-tupled arguments into three separate arguments.

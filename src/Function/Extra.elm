@@ -11,6 +11,8 @@ module Function.Extra where
 
 {-| Map into a function with a fixed input `x`. This function is just an alias for `(<<)`, the function composition operator.
 
+    (Function.map f fa) == (f << fa)
+
 The `(x -> ...)` pattern is sometimes refered to as a "Reader" of `x`, where `x` represents some ancillary environment within which we would like to operate.
 This allows `map` to transform a "Reader" that produces an `a` into a "Reader" that produces a `b`.
 -}
@@ -46,7 +48,9 @@ map4 f fa fb fc fd x = f (fa x) (fb x) (fc x) (fd x)
 {-| Incrementally apply more functions, similar to `map*N*` where `*N*` is not fixed.
 
 The `(x -> ...)` pattern is sometimes refered to as a "Reader" of `x`, where `x` represents some ancillary environment within which we would like to operate.
-This allows `apply` to compose two function `f` and `fa` as similar to `f << fa`, but instead passes the environment into both `f x << fa x`.
+This allows `apply` to compose two function `f` and `fa` similar to `f << fa`, but instead passes the environment into both so that 
+
+    (f `apply` g `apply` h) x == (f x << g x << h x)
 -}
 apply : (x -> a -> b) -> (x -> a) -> x -> b
 apply f fa x = f x (fa x)
@@ -56,6 +60,8 @@ Then, send `x` into each function along the pipeline in order to execute it in a
 
 The `(x -> ...)` pattern is sometimes refered to as a "Reader" of `x`, where `x` represents some ancillary environment within which we would like to operate.
 This allows `andThen` to repeatedly read from the environment `x` and send the result into to the next function, which in turn reads from the environment `x` again and so forth.
+
+    (f `andThen` g `andThen` h) x == (h (g (f x) x) x)
 -}
 andThen : (x -> a) -> (a -> x -> b) -> x -> b
 andThen fa f x = f (fa x) x

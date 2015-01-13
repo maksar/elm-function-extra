@@ -1,5 +1,5 @@
 {
-    "version": "1.1.2",
+    "version": "1.1.3",
     "summary": "Higher-order helpers for working with functions",
     "repository": "https://github.com/circuithub/elm-function-extra.git",
     "license": "MIT",

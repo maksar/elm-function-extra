@@ -60,7 +60,7 @@ This allows `apply` to compose many functions, where each is able to read from t
                                            == (identity `map` f `apply` ga `apply` gb `apply` gc) x
     
     (f' `map` ga `apply` gb `apply` gc) x  == f' (ga x) (gb x) (gc x) x
-                                           == (map4 f' ga gb gc) x
+                                           == (map3 f' ga gb gc) x
 
 Also notice the type signatures...
 

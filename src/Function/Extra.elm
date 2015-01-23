@@ -55,7 +55,17 @@ map4 f ga gb gc gd x = f (ga x) (gb x) (gc x) (gd x)
 The `(x -> ...)` pattern is sometimes refered to as a "Reader" of `x`, where `x` represents some ancillary environment within which we would like to operate.
 This allows `apply` to compose many functions, where each is able to read from the same environment.
 
-    (f `apply` g `apply` h) x == (f x << g x << h x)
+    (f `apply` g `apply` h `apply` i) x == (f x <| g x <| h x <| i x)
+                                        == (f x << g x << h x << i) x
+
+Also notice the type signatures...
+
+    f : x -> c -> d
+    g : x -> b -> c
+    h : x -> a -> b
+    i : x -> a
+    (f `apply` g `apply` h `apply` i) : x -> a -> d
+
 -}
 apply : (x -> a -> b) -> (x -> a) -> x -> b
 apply f ga x = f x (ga x)

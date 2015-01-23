@@ -50,23 +50,33 @@ This allows `map4` to read four variables from the environment `x` before applyi
 map4 : (a -> b -> c -> d -> e) -> (x -> a) -> (x -> b) -> (x -> c) -> (x -> d) -> x -> e
 map4 f ga gb gc gd x = f (ga x) (gb x) (gc x) (gd x)
 
-{-| Incrementally apply more functions, similar to `map*N*` where `*N*` is not fixed.
+{-| Incrementally apply more functions, similar to `map`*N* where *N* is not fixed.
 
 The `(x -> ...)` pattern is sometimes refered to as a "Reader" of `x`, where `x` represents some ancillary environment within which we would like to operate.
 This allows `apply` to compose many functions, where each is able to read from the same environment.
 
-    (f `apply` g `apply` h `apply` i) x == f x (g x) (h x) (i x)
-                                        == map4 f g h i
+    (f `apply` ga `apply` gb `apply` gc) x == f x (ga x) (gb x) (gc x)
+                                           == (map4 identity f ga gb gc) x
+                                           == (identity `map` f `apply` ga `apply` gb `apply` gc) x
+    
+    (f' `map` ga `apply` gb `apply` gc) x  == f' (ga x) (gb x) (gc x) x
+                                           == (map4 f' ga gb gc) x
 
 Also notice the type signatures...
 
-    f : x -> a -> b -> c -> d
-    g : x -> a
-    h : x -> b
-    i : x -> c
-    (f `apply` g) : x -> b -> c -> d
-    (f `apply` g `apply` h) : x -> c -> d
-    (f `apply` g `apply` h `apply` i) : x -> d
+    ga                                   : x -> a
+    gb                                   : x -> b
+    gc                                   : x -> c
+    
+    f                                    : x -> a -> b -> c -> d
+    (f `apply` ga)                       : x -> b -> c -> d
+    (f `apply` ga `apply` gb)            : x -> c -> d
+    (f `apply` ga `apply` gb `apply` gc) : x -> d
+    
+    f'                                   : a -> b -> c -> d
+    (f' `map` ga)                        : x -> b -> c -> d
+    (f' `map` ga `apply` gb)             : x -> c -> d
+    (f' `map` ga `apply` gb `apply` gc)  : x -> d
 
 -}
 apply : (x -> a -> b) -> (x -> a) -> x -> b

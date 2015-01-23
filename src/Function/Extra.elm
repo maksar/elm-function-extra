@@ -13,8 +13,8 @@ module Function.Extra where
 
     (f `map` g `map` h) == (f << g << h) -- Note that `map` refers to Function.map not List.map!
 
-The `(x -> ...)` pattern is sometimes refered to as a "Reader" of `x`, where `x` represents some ancillary environment within which we would like to operate.
-This allows `map` to transform a "Reader" that produces an `a` into a "Reader" that produces a `b`.
+The `(x -> ...)` signature is sometimes refered to as a *"reader"* of `x`, where `x` represents some ancillary environment within which we would like to operate.
+This allows `map` to transform a *"reader"* that produces an `a` into a *"reader"* that produces a `b`.
 -}
 map : (a -> b) -> (x -> a) -> x -> b
 map = (<<)
@@ -23,7 +23,7 @@ map = (<<)
 
     (map2 f ga gb) x == (f (ga x) (gb x)) x
 
-The `(x -> ...)` patterns are sometimes refered to as "Readers" of `x`, where `x` represents some ancillary environment within which we would like to operate.
+The `(x -> ...)` signatures are sometimes refered to as *"readers"* of `x`, where `x` represents some ancillary environment within which we would like to operate.
 This allows `map2` to read two variables from the environment `x` before applying them to a binary function `f`.
 -}
 map2 : (a -> b -> c) -> (x -> a) -> (x -> b) -> x -> c
@@ -33,7 +33,7 @@ map2 f ga gb x = f (ga x) (gb x)
 
     (map3 f ga gb gc) x == (f (ga x) (gb x) (gc x)) x
 
-The `(x -> ...)` patterns are sometimes refered to as "Readers" of `x`, where `x` represents some ancillary environment within which we would like to operate.
+The `(x -> ...)` signatures are sometimes refered to as *"readers"* of `x`, where `x` represents some ancillary environment within which we would like to operate.
 This allows `map3` to read three variables from the environment `x` before applying them to a ternary function `f`.
 -}
 map3 : (a -> b -> c -> d) -> (x -> a) -> (x -> b) -> (x -> c) -> x -> d
@@ -44,7 +44,7 @@ Use `apply` as an infix combinator in order to deal with a larger numbers of arg
 
     (map4 f ga gb gc gd) x == (f (ga x) (gb x) (gc x) (gd x)) x
 
-The `(x -> ...)` patterns are sometimes refered to as "Readers" of `x`, where `x` represents some ancillary environment within which we would like to operate.
+The `(x -> ...)` signatures are sometimes refered to as *"readers"* of `x`, where `x` represents some ancillary environment within which we would like to operate.
 This allows `map4` to read four variables from the environment `x` before applying them to a quaternary function `f`.
 -}
 map4 : (a -> b -> c -> d -> e) -> (x -> a) -> (x -> b) -> (x -> c) -> (x -> d) -> x -> e
@@ -52,8 +52,8 @@ map4 f ga gb gc gd x = f (ga x) (gb x) (gc x) (gd x)
 
 {-| Incrementally apply more functions, similar to `map`*N* where *N* is not fixed.
 
-The `(x -> ...)` pattern is sometimes refered to as a "Reader" of `x`, where `x` represents some ancillary environment within which we would like to operate.
-This allows `apply` to compose many functions, where each is able to read from the same environment.
+The `(x -> ...)` signature is sometimes refered to as a *"reader"* of `x`, where `x` represents some ancillary environment within which we would like to operate.
+This allows `apply` to read an arbitrary number of arguments from the same environment `x`.
 
     (f `apply` ga `apply` gb `apply` gc) x == f x (ga x) (gb x) (gc x)
                                            == (map4 identity f ga gb gc) x
@@ -85,7 +85,7 @@ apply f ga x = f x (ga x)
 {-| Connect the result `a` of the first function to the first argument of the second function to form a pipeline.
 Then, send `x` into each function along the pipeline in order to execute it in a sequential manner.
 
-The `(x -> ...)` pattern is sometimes refered to as a "Reader" of `x`, where `x` represents some ancillary environment within which we would like to operate.
+The `(x -> ...)` signature is sometimes refered to as a *"reader"* of `x`, where `x` represents some ancillary environment within which we would like to operate.
 This allows `andThen` to repeatedly read from the environment `x` and send the result into to the next function, which in turn reads from the environment `x` again and so forth.
 
     (f `andThen` g `andThen` h) x == (h (g (f x) x) x)

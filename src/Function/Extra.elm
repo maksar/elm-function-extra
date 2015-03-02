@@ -58,7 +58,7 @@ This allows `apply` to read an arbitrary number of arguments from the same envir
     (f `apply` ga `apply` gb `apply` gc) x == f x (ga x) (gb x) (gc x)
                                            == (map4 identity f ga gb gc) x
                                            == (identity `map` f `apply` ga `apply` gb `apply` gc) x
-    
+
     (f' `map` ga `apply` gb `apply` gc) x  == f' (ga x) (gb x) (gc x) x
                                            == (map3 f' ga gb gc) x
 
@@ -67,12 +67,12 @@ Also notice the type signatures...
     ga                                   : x -> a
     gb                                   : x -> b
     gc                                   : x -> c
-    
+
     f                                    : x -> a -> b -> c -> d
     (f `apply` ga)                       : x -> b -> c -> d
     (f `apply` ga `apply` gb)            : x -> c -> d
     (f `apply` ga `apply` gb `apply` gc) : x -> d
-    
+
     f'                                   : a -> b -> c -> d
     (f' `map` ga)                        : x -> b -> c -> d
     (f' `map` ga `apply` gb)             : x -> c -> d
@@ -128,3 +128,11 @@ This combines five arguments into a single 5-tuple.
 -}
 uncurry5 : (a -> b -> c -> d -> e -> x) -> (a,b,c,d,e) -> x
 uncurry5 f (a,b,c,d,e) = f a b c d e
+
+{-| Apply a binary function using a transformation on both input parameters.
+
+    (*) `on` f == \x y -> f x * f y
+    sortBy (compare `on` fst) == sortBy (\x y -> fst x `compare` fst y)
+-}
+on : (b -> b -> c) -> (a -> b) -> a -> a -> c
+on bi f x y = f x `bi` f y

@@ -6,6 +6,7 @@ module Function.Extra where
 @docs apply, andThen
 @docs curry3, curry4, curry5
 @docs uncurry3, uncurry4, uncurry5
+@docs on
 
 -}
 

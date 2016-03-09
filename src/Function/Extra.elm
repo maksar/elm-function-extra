@@ -3,8 +3,7 @@ module Function.Extra (..) where
 {-| Higher-order helpers for working with functions.
 
 # map, mapN, andMap, andThen
-The `(x -> ...)` signatures are sometimes referred to as *"readers"* of `x`, where `x` represents some extra context are
-function needs. We can map over readers similar to how we do for lists.
+The `(x -> ...)` signatures are sometimes referred to as *"readers"* of `x`, where `x` represents some extra context a function needs. We can map over readers similar to how we do for lists.
 
 @docs map, map2, map3, map4, andMap, andThen
 

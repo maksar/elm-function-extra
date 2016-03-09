@@ -23,7 +23,8 @@ function needs. We can map over readers similar to how we do for lists.
 
 {-| Map into a function with a fixed input `x`. This function is just an alias for `(<<)`, the function composition operator.
 
-    (f `map` g `map` h) == (f << g << h) -- Note that `map` refers to Function.map not List.map!
+    -- Note that `map` refers to Function.map not List.map!
+    (f `map` g `map` h) == (f << g << h)
 
 This allows `map` to transform a *"reader"* that produces an `a` into a *"reader"* that produces a `b`.
 -}
@@ -66,17 +67,20 @@ map4 f ga gb gc gd x =
   f (ga x) (gb x) (gc x) (gd x)
 
 
-{-| Incrementally apply more functions, similar to `map`*N* where *N* is not fixed.
+{-| Incrementally apply more functions, similar to `map`*N* where *N* is not fixed. This allows `andMap` to read an arbitrary number of arguments from the same environment `x`.
 
-The `(x -> ...)` signature is sometimes refered to as a *"reader"* of `x`, where `x` represents some ancillary environment within which we would like to operate.
-This allows `andMap` to read an arbitrary number of arguments from the same environment `x`.
+These are all equivalent:
 
-    (f `andMap` ga `andMap` gb `andMap` gc) x == f x (ga x) (gb x) (gc x)
-                                           == (map4 identity f ga gb gc) x
-                                           == (identity `map` f `andMap` ga `andMap` gb `andMap` gc) x
+    (f `andMap` ga `andMap` gb `andMap` gc) x
+    f x (ga x) (gb x) (gc x)
+    (map4 identity f ga gb gc) x
+    (identity `map` f `andMap` ga `andMap` gb `andMap` gc) x
 
-    (f' `map` ga `andMap` gb `andMap` gc) x  == f' (ga x) (gb x) (gc x) x
-                                           == (map3 f' ga gb gc) x
+As are all of these:
+
+    (f' `map` ga `andMap` gb `andMap` gc) x
+    f' (ga x) (gb x) (gc x) x
+    (map3 f' ga gb gc) x
 
 Also notice the type signatures...
 

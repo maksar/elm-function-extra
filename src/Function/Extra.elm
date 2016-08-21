@@ -1,4 +1,4 @@
-module Function.Extra where
+module Function.Extra exposing (..)
 {-| Higher-order helpers for working with functions.
 
 # Higher-order helpers

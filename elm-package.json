@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "summary": "Higher-order helpers for working with functions",
-    "repository": "https://github.com/elm-community/elm-function-extra.git",
+    "repository": "https://github.com/maksar/elm-function-extra.git",
     "license": "MIT",
     "source-directories": [
         "src"
@@ -10,7 +10,7 @@
         "Function.Extra"
     ],
     "dependencies": {
-        "elm-lang/core": "2.0.0 <= v < 4.0.0"
+        "elm-lang/core": "4.0.3 <= v < 5.0.0"
     },
-    "elm-version": "0.15.0 <= v < 0.17.0"
+    "elm-version": "0.15.0 <= v < 0.18.0"
 }

@@ -2,7 +2,7 @@ module Function.Extra exposing (..)
 {-| Higher-order helpers for working with functions.
 
 # Higher-order helpers
-@docs map, map2, map3, map4
+@docs map, map2, map3, map4, twice
 @docs apply, andThen
 @docs curry3, curry4, curry5
 @docs uncurry3, uncurry4, uncurry5
@@ -19,6 +19,13 @@ This allows `map` to transform a *"reader"* that produces an `a` into a *"reader
 -}
 map : (a -> b) -> (x -> a) -> x -> b
 map = (<<)
+
+{-| Applies given function `f` twice.
+
+    (twice f) == (f << f)
+-}
+twice : (a -> a) -> a -> a
+twice f = map f f
 
 {-| Send a single argument `x` into a binary function using two intermediate mappings.
 

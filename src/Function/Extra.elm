@@ -6,7 +6,6 @@ module Function.Extra exposing (..)
 @docs apply, andThen
 @docs curry3, curry4, curry5
 @docs uncurry3, uncurry4, uncurry5
-@docs on
 
 -}
 
@@ -136,11 +135,3 @@ This combines five arguments into a single 5-tuple.
 -}
 uncurry5 : (a -> b -> c -> d -> e -> x) -> (a,b,c,d,e) -> x
 uncurry5 f (a,b,c,d,e) = f a b c d e
-
-{-| Apply a binary function using a transformation on both input parameters.
-
-    (*) `on` f == \x y -> f x * f y
-    sortBy (compare `on` fst) == sortBy (\x y -> fst x `compare` fst y)
--}
-on : (b -> b -> c) -> (a -> b) -> a -> a -> c
-on bi f x y = f x `bi` f y
